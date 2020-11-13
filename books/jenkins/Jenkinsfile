@@ -112,9 +112,10 @@ pipeline {
                 script {
                     openshift.withCluster() {
                     openshift.tag("${DEV_PROJECT}/books:latest", "${STAGE_PROJECT}/books:stage")
+                    }
+                }
             }
         }
-
         stage('Deploy to Staging Env') {
             steps {
                 echo '### Cleaning existing resources in Staging ###'
@@ -131,7 +132,7 @@ pipeline {
                         oc new-app --as-deployment-config --name books -i books:stage
                         oc expose svc/${APP_NAME}
                    '''
-}
+            }
         }
 
         stage('Wait for deployment in Staging') {
